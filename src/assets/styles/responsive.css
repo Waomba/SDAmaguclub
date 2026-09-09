@@ -1,0 +1,5 @@
+/* Extra responsive tweaks beyond the inline breakpoints already in global.css */
+@media (max-width: 640px) {
+  .two-col, .sabbath-grid { grid-template-columns: 1fr; }
+  .form-row { flex-direction: column; }
+}

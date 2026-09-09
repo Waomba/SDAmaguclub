@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+api/.env
+api/uploads/*
+!api/uploads/.gitkeep
+*.log
+.DS_Store
+cookie.txt

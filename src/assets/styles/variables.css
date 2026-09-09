@@ -1,0 +1,31 @@
+/* Design tokens — mirrors the original Android app's sky-blue-on-navy/grey palette. */
+:root,
+html[data-theme="light"] {
+  --bg: #F7F8FA;
+  --surface: #FFFFFF;
+  --surface-variant: #EDEFF2;
+  --text-primary: #10181F;
+  --text-secondary: #5A6672;
+  --border: #E1E4E9;
+  --accent: #0288D1;
+  --accent-light: #4FC3F7;
+  --error: #EF5350;
+  --income: #2E7D32;
+  --expense: #C62828;
+  --shadow: 0 2px 10px rgba(16, 24, 31, 0.08);
+}
+
+html[data-theme="dark"] {
+  --bg: #10181F;
+  --surface: #1B2733;
+  --surface-variant: #243240;
+  --text-primary: #F5F7FA;
+  --text-secondary: #AAB6C2;
+  --border: #2B3946;
+  --accent: #4FC3F7;
+  --accent-light: #4FC3F7;
+  --error: #EF5350;
+  --income: #66BB6A;
+  --expense: #EF5350;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
