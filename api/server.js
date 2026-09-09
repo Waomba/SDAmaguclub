@@ -5,7 +5,7 @@ import session from 'express-session';
 import cors from 'cors';
 import path from 'node:path';
 import net from 'node:net';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import 'dotenv/config';
 
 import authRoutes from './auth/index.js';
@@ -23,6 +23,14 @@ import settingsRoutes from './settings/index.js';
 import adminStatsRoutes from './admin/stats.js';
 
 export const app = express();
+
+// Vercel routes requests through /api, while local development uses the route directly.
+app.use((req, res, next) => {
+  if (req.url === '/api' || req.url.startsWith('/api/')) {
+    req.url = req.url.slice(4) || '/';
+  }
+  next();
+});
 
 export function getAvailablePort(startPort = Number(process.env.PORT) || 4000, host = '::') {
   return new Promise((resolve, reject) => {
@@ -59,7 +67,7 @@ app.use(session({
   cookie: { httpOnly: true, sameSite: 'lax', maxAge: 30 * 24 * 60 * 60 * 1000 },
 }));
 
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+app.use('/uploads', express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), 'uploads')));
 
 app.use('/auth', authRoutes);
 app.use('/members', memberRoutes);
