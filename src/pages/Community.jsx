@@ -19,7 +19,8 @@ export default function Community() {
     try { await communityService.createPost(formData); reload(); } finally { setPosting(false); }
   };
   const handleDelete = async (id) => { await communityService.deletePost(id); reload(); };
-  const handleToggleReaction = async (id) => { await communityService.toggleReaction(id); reload(); };
+  const handleVote = async (id, direction) => { await communityService.vote(id, direction); reload(); };
+  const handleToggleBookmark = async (id) => { await communityService.toggleBookmark(id); reload(); };
   const handleAddComment = async (postId, content) => { await communityService.addComment(postId, content); reload(); };
 
   return (
@@ -51,7 +52,8 @@ export default function Community() {
             currentUserId={user?.id}
             isAdmin={isAdmin}
             onDelete={handleDelete}
-            onToggleReaction={handleToggleReaction}
+            onVote={handleVote}
+            onToggleBookmark={handleToggleBookmark}
             onAddComment={handleAddComment}
           />
         ))

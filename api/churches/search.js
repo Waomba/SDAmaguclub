@@ -36,14 +36,26 @@ router.post('/profile', requireAdmin, upload.single('logo'), async (req, res) =>
 
 // Directory of other/nearby churches (pages/find_church.php)
 router.get('/directory', async (req, res) => {
-  const [rows] = await pool.query('SELECT * FROM churches ORDER BY name ASC');
+  const search = String(req.query.q || '').trim();
+  let sql = 'SELECT * FROM churches';
+  const params = [];
+  if (search) {
+    sql += ' WHERE name LIKE ? OR address LIKE ? OR phone LIKE ? OR service_times LIKE ?';
+    const term = `%${search}%`;
+    params.push(term, term, term, term);
+  }
+  sql += ' ORDER BY name ASC';
+  const [rows] = await pool.query(sql, params);
   res.json({ churches: rows });
 });
 
 router.post('/directory', requireAdmin, async (req, res) => {
-  const { name, address, phone } = req.body;
+  const { name, address, phone, service_times, latitude, longitude } = req.body;
   if (!name) return res.status(400).json({ error: 'Name is required.' });
-  const [result] = await pool.query('INSERT INTO churches (name, address, phone) VALUES (?, ?, ?)', [name, address || null, phone || null]);
+  const [result] = await pool.query(
+    'INSERT INTO churches (name, address, phone, service_times, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?)',
+    [name, address || null, phone || null, service_times || null, latitude === '' ? null : latitude || null, longitude === '' ? null : longitude || null]
+  );
   res.status(201).json({ id: result.insertId });
 });
 

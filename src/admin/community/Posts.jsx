@@ -11,7 +11,8 @@ export default function Posts() {
   const { user } = useAuth();
   const { posts, loading, reload } = useCommunity();
   const handleDelete = async (id) => { await communityService.deletePost(id); reload(); };
-  const handleToggleReaction = async (id) => { await communityService.toggleReaction(id); reload(); };
+  const handleVote = async (id, direction) => { await communityService.vote(id, direction); reload(); };
+  const handleToggleBookmark = async (id) => { await communityService.toggleBookmark(id); reload(); };
   const handleAddComment = async (postId, content) => { await communityService.addComment(postId, content); reload(); };
 
   if (loading) return <Loader />;
@@ -23,7 +24,7 @@ export default function Posts() {
         <Link to="/admin/community" className="btn btn-sm btn-secondary">Back</Link>
       </div>
       {posts.map((p) => (
-        <PostCard key={p.id} post={p} currentUserId={user?.id} isAdmin onDelete={handleDelete} onToggleReaction={handleToggleReaction} onAddComment={handleAddComment} />
+        <PostCard key={p.id} post={p} currentUserId={user?.id} isAdmin onDelete={handleDelete} onVote={handleVote} onToggleBookmark={handleToggleBookmark} onAddComment={handleAddComment} />
       ))}
     </>
   );

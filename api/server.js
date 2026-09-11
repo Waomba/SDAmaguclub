@@ -3,6 +3,7 @@
 import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
+import multer from 'multer';
 import path from 'node:path';
 import net from 'node:net';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -83,11 +84,26 @@ app.use('/budget', budgetRoutes);
 app.use('/settings', settingsRoutes);
 app.use('/admin', adminStatsRoutes);
 
+app.get('/', (req, res) => res.json({
+  ok: true,
+  service: 'sda-clubweb-api',
+  frontend: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+}));
+
 app.get('/health', (req, res) => res.json({ ok: true }));
 
 // Centralized error handler — ported from api/_bootstrap.php's try/catch-to-JSON pattern
 app.use((err, req, res, next) => {
   console.error(err);
+  if (err instanceof multer.MulterError) {
+    const message = err.code === 'LIMIT_FILE_SIZE'
+      ? 'Image must be smaller than 8 MB.'
+      : `Upload failed: ${err.message}`;
+    return res.status(400).json({ error: message });
+  }
+  if (err.message === 'Only image files can be uploaded.') {
+    return res.status(400).json({ error: err.message });
+  }
   res.status(500).json({ error: 'Something went wrong on the server.' });
 });
 

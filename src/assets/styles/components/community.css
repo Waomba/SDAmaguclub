@@ -11,9 +11,35 @@
 .post-meta { font-size: 12px; color: var(--text-secondary); }
 .post-body { font-size: 14px; line-height: 1.6; margin-bottom: 8px; white-space: pre-wrap; }
 .post-image { width: 100%; border-radius: 10px; margin-bottom: 8px; display: block; }
-.post-actions { display: flex; align-items: center; gap: 16px; font-size: 13px; color: var(--text-secondary); margin: 10px 0; }
-.post-actions button { background: none; border: none; color: var(--text-secondary); font-size: 13px; cursor: pointer; padding: 4px 0; }
-.post-actions button.reacted { color: var(--accent); font-weight: 700; }
+/* Vote / comment / share / bookmark action row — replaces the old single "Like" button */
+.post-actions-bar { display: flex; align-items: center; justify-content: space-between; margin: 10px 0; flex-wrap: wrap; gap: 8px; }
+.post-actions-left { display: flex; align-items: center; gap: 8px; }
+.post-actions-right { display: flex; align-items: center; gap: 8px; }
+
+.vote-group { display: flex; align-items: center; gap: 6px; }
+.vote-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text-secondary); font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.vote-btn .vote-arrow { font-size: 11px; }
+.vote-btn.up.active { color: var(--income); border-color: var(--income); background: rgba(46,125,50,.1); }
+.vote-btn.down.active { color: var(--expense); border-color: var(--expense); background: rgba(198,40,40,.1); }
+
+.comment-btn {
+  padding: 6px 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text-secondary); font-size: 13px; font-weight: 600; cursor: pointer;
+}
+
+.icon-circle-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--surface);
+  cursor: pointer; font-size: 15px;
+}
+.icon-circle-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(2,136,209,.1); }
 .comment-list { border-top: 1px solid var(--border); padding-top: 8px; }
 .comment-item { font-size: 13px; padding: 4px 0; }
 
@@ -31,3 +57,39 @@
 .notif-list { padding: 0; }
 .notif-item { display: block; padding: 12px 4px; border-bottom: 1px solid var(--border); font-size: 14px; }
 .notif-item:last-child { border-bottom: none; }
+
+/* WhatsApp-style chat list rows (Groups + Messages screens) */
+.chat-list-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 4px; border-bottom: 1px solid var(--border);
+  text-decoration: none; color: var(--text-primary);
+}
+.chat-list-item:last-child { border-bottom: none; }
+.chat-avatar {
+  width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
+  background: var(--accent); color: #fff; font-weight: 700; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.chat-avatar.group { background: var(--text-secondary); }
+.chat-info { flex: 1; min-width: 0; }
+.chat-name { font-weight: 600; font-size: 15px; display: block; }
+.chat-preview { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.chat-meta-col { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+.chat-meta-time { font-size: 11px; color: var(--text-secondary); }
+.chat-join-btn { flex-shrink: 0; }
+
+/* Floating action button — bottom-right, matches the WhatsApp "new chat" FAB */
+.fab-btn {
+  position: fixed; right: 20px; bottom: 84px; z-index: 25;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #0288D1; border: none; box-shadow: var(--shadow);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #fff;
+}
+.fab-icon { font-size: 22px; }
+.fab-plus {
+  position: absolute; bottom: 4px; right: 4px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; color: #4FC3F7; font-size: 13px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center; line-height: 1;
+}

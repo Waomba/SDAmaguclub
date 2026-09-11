@@ -1,0 +1,91 @@
+/* ChurchSearch autocomplete — styled to match Google Maps search suggestions */
+
+.church-search {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.church-search-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 10px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.church-search-icon {
+  font-size: 16px;
+  color: #5f6368;
+  flex-shrink: 0;
+}
+
+.church-search-input-row input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 15px;
+  background: transparent;
+}
+
+.church-autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  z-index: 50;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.church-autocomplete-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.church-autocomplete-row.active,
+.church-autocomplete-row:hover {
+  background: #f1f3f4;
+}
+
+.church-autocomplete-pin {
+  font-size: 18px;
+  color: #5f6368;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.church-autocomplete-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.church-autocomplete-main {
+  font-weight: 400;
+  color: #202124;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.church-autocomplete-main strong {
+  font-weight: 700;
+}
+
+.church-autocomplete-secondary {
+  color: #5f6368;
+  font-size: 13px;
+}

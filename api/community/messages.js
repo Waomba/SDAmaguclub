@@ -15,15 +15,30 @@ router.get('/messages', requireLogin, async (req, res) => {
            (SELECT body FROM messages m
             WHERE m.recipient_id IS NOT NULL
               AND ((m.sender_id = u.id AND m.recipient_id = ?) OR (m.sender_id = ? AND m.recipient_id = u.id))
-            ORDER BY m.created_at DESC LIMIT 1) AS last_body
+            ORDER BY m.created_at DESC LIMIT 1) AS last_body,
+           (SELECT created_at FROM messages m
+            WHERE m.recipient_id IS NOT NULL
+              AND ((m.sender_id = u.id AND m.recipient_id = ?) OR (m.sender_id = ? AND m.recipient_id = u.id))
+            ORDER BY m.created_at DESC LIMIT 1) AS last_at
     FROM users u
     WHERE u.id != ? AND EXISTS (
       SELECT 1 FROM messages m
       WHERE m.recipient_id IS NOT NULL
         AND ((m.sender_id = u.id AND m.recipient_id = ?) OR (m.sender_id = ? AND m.recipient_id = u.id))
     )
-  `, [userId, userId, userId, userId, userId]);
+    ORDER BY last_at DESC
+  `, [userId, userId, userId, userId, userId, userId, userId]);
   res.json({ conversations: rows });
+});
+
+// New: list other users to start a conversation with (powers the "+" new-chat
+// button — the original app had no such picker, DMs only started via replying).
+router.get('/users', requireLogin, async (req, res) => {
+  const [rows] = await pool.query(
+    'SELECT id, display_name, role FROM users WHERE id != ? ORDER BY display_name ASC',
+    [req.session.userId]
+  );
+  res.json({ users: rows });
 });
 
 router.get('/messages/:withUserId', requireLogin, async (req, res) => {

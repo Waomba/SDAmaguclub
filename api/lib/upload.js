@@ -3,8 +3,9 @@
 import multer from 'multer';
 import path from 'node:path';
 import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
-const uploadDir = path.join(process.cwd(), 'uploads');
+const uploadDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'uploads');
 fs.mkdirSync(uploadDir, { recursive: true });
 
 const storage = multer.diskStorage({
@@ -15,7 +16,14 @@ const storage = multer.diskStorage({
   },
 });
 
-export const upload = multer({ storage, limits: { fileSize: 8 * 1024 * 1024 } });
+export const upload = multer({
+  storage,
+  limits: { fileSize: 8 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) return cb(null, true);
+    cb(new Error('Only image files can be uploaded.'));
+  },
+});
 
 export function fileUrl(req, filename) {
   if (!filename) return null;

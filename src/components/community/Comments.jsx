@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // Ported from the comment thread + composer in community/feed.php
-export default function Comments({ comments, isLoggedIn, onAddComment }) {
+export default function Comments({ comments, isLoggedIn, onAddComment, inputId }) {
   const [text, setText] = useState('');
   return (
     <div className="comment-list">
@@ -13,7 +13,7 @@ export default function Comments({ comments, isLoggedIn, onAddComment }) {
           style={{ display: 'flex', gap: 6, marginTop: 6 }}
           onSubmit={(e) => { e.preventDefault(); if (text.trim()) { onAddComment(text); setText(''); } }}
         >
-          <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Write a comment…" style={{ flex: 1 }} />
+          <input id={inputId} type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Write a comment…" style={{ flex: 1 }} />
           <button type="submit" className="btn btn-sm">Send</button>
         </form>
       )}
